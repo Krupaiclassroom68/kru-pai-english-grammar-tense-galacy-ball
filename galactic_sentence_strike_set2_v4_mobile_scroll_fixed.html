@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Kru Pai Classroom — Galactic Sentence Strike Set 2</title>
+<style>
+:root{
+  --bg:#060817; --bg2:#0d1231; --txt:#eef7ff; --muted:#a9c8e7;
+  --line:rgba(160,220,255,.16); --line2:rgba(160,220,255,.32);
+  --gold:#ffd86b; --pink:#ff5bb0; --cyan:#83ebff; --green:#8bffc4; --red:#ff708a; --violet:#a67cff;
+  --shadow:rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; color:var(--txt); overflow-x:hidden; overflow-y:auto;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:
+    radial-gradient(circle at 16% 18%, rgba(166,124,255,.23), transparent 32%),
+    radial-gradient(circle at 82% 22%, rgba(255,91,176,.18), transparent 28%),
+    radial-gradient(circle at 58% 78%, rgba(131,235,255,.14), transparent 30%),
+    linear-gradient(180deg,var(--bg),var(--bg2));
+}
+body::before,body::after{content:"";position:fixed;inset:-50px;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(2px 2px at 12% 22%, rgba(255,255,255,.95), transparent 60%),
+    radial-gradient(1px 1px at 18% 76%, rgba(255,255,255,.8), transparent 60%),
+    radial-gradient(2px 2px at 28% 34%, rgba(255,255,255,.9), transparent 60%),
+    radial-gradient(1px 1px at 42% 86%, rgba(255,255,255,.76), transparent 60%),
+    radial-gradient(2px 2px at 63% 24%, rgba(255,255,255,.88), transparent 60%),
+    radial-gradient(1px 1px at 74% 60%, rgba(255,255,255,.78), transparent 60%),
+    radial-gradient(2px 2px at 90% 28%, rgba(255,255,255,.92), transparent 60%),
+    radial-gradient(1px 1px at 92% 82%, rgba(255,255,255,.72), transparent 60%);
+  background-size:660px 660px; opacity:.55; animation:drift 30s linear infinite;
+}
+body::after{opacity:.28; animation-duration:42s}
+@keyframes drift{to{transform:translate3d(-55px,40px,0)}}
+.screen{position:fixed;inset:0;display:none;padding:16px;padding-top:max(16px,env(safe-area-inset-top));padding-bottom:max(16px,env(safe-area-inset-bottom));overflow:auto}
+.screen.show{display:flex}
+.wrap{width:min(1240px,100%);margin:auto;display:grid;gap:14px;position:relative;z-index:1}
+.topbar,.panel,.modal{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.04));box-shadow:0 22px 80px var(--shadow);backdrop-filter:blur(14px)}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-radius:24px;padding:14px 16px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;font-weight:1000;background:linear-gradient(135deg,rgba(255,216,107,.34),rgba(255,91,176,.18),rgba(131,235,255,.2));border:1px solid var(--line2);box-shadow:0 12px 36px rgba(0,0,0,.4),0 0 26px rgba(255,216,107,.14) inset}
+.title{font-weight:1000;letter-spacing:.2px;font-size:clamp(20px,2vw,28px)}
+.subtitle{font-size:13px;color:var(--muted);margin-top:3px}
+.pill{padding:10px 13px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.06);font-weight:900;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn{cursor:pointer;border:none;color:var(--txt);font-weight:1000;border-radius:16px;padding:13px 16px;background:rgba(255,255,255,.09);border:1px solid var(--line2);transition:transform .12s ease,filter .2s ease,background .2s ease}
+.btn:hover{filter:brightness(1.08)} .btn:active{transform:scale(.98)}
+.btn.primary{background:linear-gradient(135deg,rgba(255,216,107,.24),rgba(255,91,176,.18));box-shadow:0 16px 38px rgba(0,0,0,.45),0 0 0 1px rgba(255,216,107,.18) inset}
+.btn.green{background:linear-gradient(135deg,rgba(139,255,196,.2),rgba(131,235,255,.12))}
+.btn.red{background:linear-gradient(135deg,rgba(255,112,138,.24),rgba(166,124,255,.14))}
+.hero{display:grid;gap:14px;text-align:center;border-radius:28px;padding:24px}
+.hero h1{margin:0;font-size:clamp(28px,4.8vw,50px);line-height:1.06}
+.hero .hint{color:var(--muted);line-height:1.55;font-size:clamp(14px,2vw,18px)}
+.inputRow{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.inputRow input{min-width:220px;max-width:320px;width:100%;color:var(--txt);background:rgba(0,0,0,.18);border:1px solid var(--line2);border-radius:16px;padding:14px 16px;outline:none;font-weight:900;font-size:18px}
+.field{position:relative;min-height:min(650px,72vh);border-radius:30px;overflow:hidden;padding:10px}
+.field::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 50%, rgba(255,216,107,.08), transparent 32%), radial-gradient(circle at 50% 50%, rgba(131,235,255,.04), transparent 55%);pointer-events:none}
+.planet{position:absolute;transform:translate(-50%,-50%);width:166px;height:166px;border-radius:50%;display:grid;place-items:center;text-align:center;cursor:pointer;user-select:none;background:radial-gradient(circle at 30% 28%, rgba(255,255,255,.45), transparent 28%),radial-gradient(circle at 62% 68%, rgba(0,0,0,.56), transparent 58%),linear-gradient(135deg,rgba(166,124,255,.72),rgba(255,91,176,.34));border:1px solid rgba(255,255,255,.16);box-shadow:0 26px 58px rgba(0,0,0,.58),0 0 0 2px rgba(131,235,255,.08) inset,0 0 30px rgba(166,124,255,.24);animation:floaty 4.7s ease-in-out infinite}
+.planet::after{content:"";position:absolute;inset:-12px;border-radius:50%;border:2px solid rgba(131,235,255,.12);filter:blur(.3px)}
+@keyframes floaty{50%{transform:translate(-50%,-50%) translateY(-12px)}}
+.planet .bigStar{font-size:56px;filter:drop-shadow(0 0 14px rgba(255,216,107,.46));margin-bottom:6px}
+.planet .name{font-size:24px;font-weight:1000;line-height:1.04;text-shadow:0 0 12px rgba(0,0,0,.45)}
+.planet .mini{font-size:14px;color:#fff4c9;opacity:.94;font-weight:900;margin-top:4px}
+.planet.gone{pointer-events:none}
+.planet.fadeOut{animation:none;transition:transform .42s cubic-bezier(.2,.9,.2,1),opacity .42s ease,filter .42s ease;transform:translate(-50%,-50%) scale(.16);opacity:0;filter:blur(1px) brightness(1.6)}
+.planet.rebuildBorn{animation:rebuildPop .28s ease both}
+@keyframes rebuildPop{0%{transform:translate(-50%,-50%) scale(.12);opacity:0;filter:blur(2px)}100%{transform:translate(-50%,-50%) scale(1);opacity:1;filter:none}}
+.centerCore{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.coreRocket{font-size:116px;filter:drop-shadow(0 0 16px rgba(255,216,107,.28));animation:rocketFloat 4s ease-in-out infinite}
+.coreText{font-weight:1000;margin-top:6px;letter-spacing:.08em;color:#ffe8a2;text-shadow:0 0 14px rgba(255,216,107,.28)}
+@keyframes rocketFloat{50%{transform:translateY(-10px) scale(1.03)}}
+.overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,5,18,.72);backdrop-filter:blur(10px);z-index:30;padding:16px}
+.overlay.show{display:flex}
+.modal{width:min(920px,100%);border-radius:28px;overflow:hidden}
+.mHead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.08)}
+.mBody{padding:18px}
+.questionTitle{font-size:clamp(22px,3vw,34px);font-weight:1000;line-height:1.15}
+.smallHint{color:var(--muted);margin-top:8px;line-height:1.45}
+.options{display:grid;grid-template-columns:1fr;gap:12px;margin-top:16px}
+.option{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);font-weight:1000;font-size:clamp(17px,2vw,22px);text-align:left;color:var(--txt);text-shadow:0 0 8px rgba(0,0,0,.45)}
+.option .badge{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);font-size:20px;font-weight:1000;flex:0 0 auto}
+.option.good{border-color:rgba(139,255,196,.6);background:rgba(139,255,196,.12)}
+.option.bad{border-color:rgba(255,112,138,.6);background:rgba(255,112,138,.12)}
+.option:disabled{opacity:1}
+.timerWrap{display:flex;align-items:center;gap:12px}
+.ring{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;font-weight:1000;border:1px solid rgba(255,255,255,.12);background:conic-gradient(var(--pink) 360deg, rgba(255,255,255,.1) 0deg)}
+.resultBox{margin-top:16px;padding:16px;border-radius:22px;display:none;line-height:1.55;font-weight:900}
+.resultBox.show{display:block}
+.resultBox.good{background:rgba(139,255,196,.1);border:1px solid rgba(139,255,196,.35)}
+.resultBox.bad{background:rgba(255,112,138,.1);border:1px solid rgba(255,112,138,.35)}
+.actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:16px}
+.stage2Board{display:grid;gap:14px;border-radius:28px;padding:18px}
+.stage2Question{font-size:clamp(22px,3vw,34px);font-weight:1000;text-align:center}
+.wordSlots,.bank,.treasureSlots{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.slot,.wordStar,.treasureSlot{min-width:92px;min-height:66px;padding:12px 16px;border-radius:999px;display:flex;justify-content:center;align-items:center;border:1px dashed rgba(255,255,255,.18);background:rgba(255,255,255,.06);font-weight:1000;font-size:clamp(18px,2vw,24px);text-align:center}
+.slot.filled{border-style:solid;background:rgba(131,235,255,.12)}
+.wordStar{cursor:pointer;min-height:82px;min-width:114px;position:relative;background:linear-gradient(135deg,rgba(166,124,255,.28),rgba(255,216,107,.18));border:1px solid rgba(255,255,255,.16);box-shadow:0 18px 40px rgba(0,0,0,.46),0 0 20px rgba(255,216,107,.09)}
+.wordStar::before{content:"⭐";position:absolute;left:10px;top:8px;font-size:20px;opacity:.8}
+.wordStar.used{opacity:.35;pointer-events:none;transform:scale(.95)}
+.treasureSky{min-height:220px;position:relative;border-radius:26px;background:radial-gradient(circle at 50% 40%, rgba(255,216,107,.08), transparent 40%), rgba(255,255,255,.03);overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.treasureNote{position:absolute;left:50%;top:16px;transform:translateX(-50%);font-weight:1000;color:#ffe8a2;text-shadow:0 0 14px rgba(255,216,107,.26)}
+.treasureSlots{position:absolute;left:50%;bottom:18px;transform:translateX(-50%)}
+.treasureSlot{width:84px;min-width:84px;min-height:84px;border-radius:26px;background:rgba(255,255,255,.05);font-size:40px;position:relative;overflow:visible}
+.flyingTreasure{position:fixed;z-index:60;font-size:44px;pointer-events:none;filter:drop-shadow(0 0 10px rgba(255,216,107,.42));animation:wiggle 1.2s ease-in-out infinite}
+@keyframes wiggle{50%{transform:translateY(-4px) rotate(8deg)}}
+.summaryGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.stat{padding:16px;border-radius:22px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);text-align:center}.stat .n{font-size:34px;font-weight:1000}.stat .l{color:var(--muted);font-weight:900;margin-top:5px}
+canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:50}
+
+.modal{max-height:min(92vh,900px);overflow:auto;-webkit-overflow-scrolling:touch}
+.actions{position:sticky;bottom:0;padding-top:10px;padding-bottom:4px;background:linear-gradient(180deg, rgba(13,18,49,0), rgba(13,18,49,.82) 35%, rgba(13,18,49,.96));z-index:2}
+@media (max-width:700px){
+  .screen{padding:12px;padding-top:max(12px,env(safe-area-inset-top));padding-bottom:max(22px,calc(env(safe-area-inset-bottom) + 18px))}
+  .overlay{align-items:flex-start;padding:10px;padding-top:max(10px,env(safe-area-inset-top));padding-bottom:max(14px,calc(env(safe-area-inset-bottom) + 14px));overflow:auto}
+  .modal{width:min(100%, 820px);max-height:none}
+  .mHead{position:sticky;top:0;z-index:3;background:linear-gradient(180deg,rgba(12,16,40,.96),rgba(12,16,40,.88));backdrop-filter:blur(10px)}
+  .mBody{padding:14px}
+  .questionTitle{font-size:clamp(20px,6vw,28px)}
+  .option{font-size:clamp(16px,4.8vw,20px);padding:13px 14px}
+  .resultBox{font-size:15px}
+}
+.hidden{display:none !important}
+@media (max-width:900px){.planet{width:146px;height:146px}.planet .name{font-size:22px}}
+@media (max-width:700px){.planet{width:126px;height:126px}.planet .bigStar{font-size:44px}.planet .name{font-size:18px}.coreRocket{font-size:88px}.treasureSlot{width:72px;min-width:72px;min-height:72px;font-size:34px}}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+
+<section class="screen show" id="home">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><div class="logo">KP</div><div><div class="title">Kru Pai Classroom</div><div class="subtitle">Galactic Sentence Strike — Set 2 • รอบตัดสิน 2 ด่าน</div></div></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div class="pill">🌟 ด่าน 1: เลือกประโยคที่ถูกต้อง</div><div class="pill">⚔️ ด่าน 2: เรียงคำจากดวงดาว</div></div>
+    </div>
+    <div class="panel hero">
+      <h1>ปล่อยพลังดาวให้สุด แล้วลุยรอบตัดสิน 🚀</h1>
+      <div class="hint">ด่าน 1 จับเวลา <b>11 วินาทีต่อข้อ</b> เลือกประโยคที่ถูกต้องจาก 3 ตัวเลือก<br>ภารกิจสำเร็จแล้วจะเข้าสู่ด่าน 2: กดดวงดาวที่มีคำศัพท์ให้มาเรียงเป็นประโยคอังกฤษที่ถูกต้อง <b>โดยไม่มีคำแปลไทย</b><br>ถ้าเรียงถูก มหาสมบัติ “ตุ๊กตาทอง” จะลอยฟรุ้งฟริ้งเข้าช่องสมบัติ ✨🏆🧸</div>
+      <div class="inputRow"><input id="playerName" placeholder="พิมพ์ชื่อเล่นก่อนเริ่มเกม"><button class="btn primary" id="startGameBtn">▶ START GAME</button><button class="btn" id="enableSoundBtn">🔊 เปิดเสียง</button></div>
+      <div class="hint" style="font-size:14px">*กด Start หรือ เปิดเสียง 1 ครั้ง เพื่อปลดล็อกเสียงบนมือถือ</div>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="stage1">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><div class="logo">1</div><div><div class="title">Kru Pai Classroom</div><div class="subtitle">Stage 1 — Sentence Strike Battle</div></div></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div class="pill">👤 <span id="who1">-</span></div><div class="pill">🪐 กำจัดแล้ว <span id="killed">0</span>/8</div><div class="pill">🔁 รีอาณาจักร <span id="rebuilds">0</span></div><button class="btn" id="backHome1">🏠 หน้าแรก</button></div>
+    </div>
+    <div class="panel field" id="battleField"><div class="centerCore"><div class="coreRocket">🚀</div><div class="coreText">SENTENCE STRIKE</div></div></div>
+  </div>
+</section>
+
+<div class="overlay" id="qOverlay">
+  <div class="modal">
+    <div class="mHead">
+      <div><div style="font-weight:1000;font-size:22px">🪐 <span id="planetTitle">Star</span></div><div class="subtitle">เลือกประโยคที่เขียนถูกต้องเพียง 1 ข้อ</div></div>
+      <div class="timerWrap"><div class="ring" id="timerRing"><span id="timerNum">11</span></div><div class="pill">⏳ 11 วิ ต่อข้อ</div></div>
+    </div>
+    <div class="mBody">
+      <div class="questionTitle">เลือกประโยคภาษาอังกฤษที่ถูกต้อง ✅</div>
+      <div class="smallHint">รอบนี้ไม่มี 50:50 แล้ว — ต้องอ่านจริง สังเกตจริง และตัดสินใจให้แม่น</div>
+      <div class="options" id="optionsBox"></div>
+      <div class="resultBox" id="resultBox"></div>
+      <div class="actions"><button class="btn red hidden" id="rebuildBtn">🌌 สร้างอาณาจักรดาวใหม่</button><button class="btn primary hidden" id="continueBtn">➡ ต่อไป</button></div>
+    </div>
+  </div>
+</div>
+
+<section class="screen" id="stage2">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand"><div class="logo">2</div><div><div class="title">Kru Pai Classroom</div><div class="subtitle">Stage 2 — Final Bat • เรียงคำจากดวงดาว</div></div></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div class="pill">👤 <span id="who2">-</span></div><div class="pill">🏆 ผ่าน <span id="solvedCount">0</span>/5</div><button class="btn" id="backHome2">🏠 หน้าแรก</button></div>
+    </div>
+    <div class="panel stage2Board">
+      <div class="stage2Question" id="stage2Prompt">Arrange the sentence correctly.</div>
+      <div class="smallHint" style="text-align:center">กดดวงดาวคำศัพท์ให้มาเรียงในช่องด้านบน — ไม่มีคำแปลไทยนะ ต้องใช้ความเข้าใจล้วน ๆ 🌌</div>
+      <div class="wordSlots" id="wordSlots"></div>
+      <div class="bank" id="wordBank"></div>
+      <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap"><button class="btn" id="clearWordsBtn">🧹 ล้างคำที่เรียง</button><button class="btn primary" id="checkOrderBtn">✅ ตรวจคำตอบ</button><button class="btn green hidden" id="nextPuzzleBtn">➡ ข้อต่อไป</button></div>
+      <div class="resultBox" id="orderResult"></div>
+      <div class="treasureSky" id="treasureSky"><div class="treasureNote">TREASURE GALAXY ✨</div><div class="treasureSlots" id="treasureSlots"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="summary">
+  <div class="wrap">
+    <div class="topbar"><div class="brand"><div class="logo">🏆</div><div><div class="title">Kru Pai Classroom</div><div class="subtitle">Mission Summary</div></div></div><button class="btn primary" id="playAgainBtn">🔁 เล่นใหม่</button></div>
+    <div class="panel" style="padding:18px;border-radius:28px;display:grid;gap:14px">
+      <div style="font-size:clamp(28px,4vw,48px);font-weight:1000;text-align:center">ภารกิจสำเร็จแล้ว! ✨</div>
+      <div style="text-align:center;color:var(--muted);font-weight:900">สรุปผลของ <span id="who3">-</span></div>
+      <div class="summaryGrid">
+        <div class="stat"><div class="n" id="sumFirst">0</div><div class="l">กำจัดรวดเดียวก่อนรี</div></div>
+        <div class="stat"><div class="n" id="sumRebuilds">0</div><div class="l">จำนวนรีอาณาจักร</div></div>
+        <div class="stat"><div class="n" id="sumPuzzles">0/5</div><div class="l">ด่าน 2 ที่ผ่าน</div></div>
+        <div class="stat"><div class="n" id="sumAccuracy">0%</div><div class="l">ความแม่นยำด่าน 1</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+const $=id=>document.getElementById(id);
+const screens=['home','stage1','stage2','summary'];
+function showScreen(id){screens.forEach(s=>$(s).classList.remove('show')); $(id).classList.add('show');}
+function shuffle(a){const b=a.slice(); for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]];} return b;}
+
+/* audio */
+let audioOn=false, actx=null;
+function ensureAudio(){ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)(); }
+function beep(freq=880,dur=0.08,type='sine',gain=0.05){ if(!audioOn) return; ensureAudio(); const t=actx.currentTime; const o=actx.createOscillator(), g=actx.createGain(); o.type=type; o.frequency.value=freq; o.connect(g); g.connect(actx.destination); g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(gain,t+0.01); g.gain.exponentialRampToValueAtTime(0.0001,t+dur); o.start(t); o.stop(t+dur+0.02);} 
+function sfxGood(){beep(880,0.07,'triangle',0.07);setTimeout(()=>beep(1180,0.09,'triangle',0.07),80);setTimeout(()=>beep(1460,0.10,'triangle',0.06),170);}
+function sfxBad(){beep(240,0.12,'sawtooth',0.09);setTimeout(()=>beep(170,0.14,'sawtooth',0.1),120);} 
+function sfxClick(){beep(700,0.04,'triangle',0.04);} 
+function sfxTreasure(){beep(1320,0.08,'triangle',0.08);setTimeout(()=>beep(1760,0.10,'triangle',0.07),80);setTimeout(()=>beep(2200,0.12,'triangle',0.06),180);} 
+$('enableSoundBtn').onclick=()=>{audioOn=true; ensureAudio(); sfxGood(); $('enableSoundBtn').textContent='🔊 เสียงพร้อมแล้ว';};
+
+/* fx canvas */
+const fx=document.getElementById('fx'); const ctx=fx.getContext('2d'); let FXW=0, FXH=0, particles=[]; let animating=false;
+function resizeFX(){FXW=fx.width=Math.floor(innerWidth*devicePixelRatio); FXH=fx.height=Math.floor(innerHeight*devicePixelRatio); fx.style.width=innerWidth+'px'; fx.style.height=innerHeight+'px';}
+addEventListener('resize',resizeFX); resizeFX();
+function burst(x,y,count=70,colors=['#ffd86b','#ff5bb0','#83ebff','#8bffc4']){const X=x*devicePixelRatio,Y=y*devicePixelRatio; for(let i=0;i<count;i++){const a=Math.random()*Math.PI*2; const sp=4+Math.random()*7; particles.push({x:X,y:Y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-6,w:8+Math.random()*10,h:4+Math.random()*6,rot:Math.random()*6,vr:(Math.random()-.5)*.4,life:60+Math.random()*40,col:colors[Math.floor(Math.random()*colors.length)]});} if(!animating) requestAnimationFrame(loopFX);}
+function loopFX(){animating=true; ctx.clearRect(0,0,FXW,FXH); particles=particles.filter(p=>p.life>0); for(const p of particles){p.life--; p.vy+=0.18*devicePixelRatio; p.x+=p.vx*devicePixelRatio; p.y+=p.vy*devicePixelRatio; p.rot+=p.vr; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.fillStyle=p.col; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctx.restore();} if(particles.length){requestAnimationFrame(loopFX);} else {animating=false;}}
+
+/* stage 1 data */
+const stage1Questions=[
+ {star:'Nova', correct:'She goes to school every day.', wrong:['She go to school every day.','She going to school every day.']},
+ {star:'Orion', correct:'They are playing football now.', wrong:['They is playing football now.','They playing football now.']},
+ {star:'Comet', correct:'I did my homework yesterday.', wrong:['I do my homework yesterday.','I done my homework yesterday.']},
+ {star:'Luna', correct:'We will visit grandma tomorrow.', wrong:['We visited grandma tomorrow.','We will visits grandma tomorrow.']},
+ {star:'Astra', correct:'He has eaten breakfast already.', wrong:['He have eaten breakfast already.','He has ate breakfast already.']},
+ {star:'Vega', correct:'My mom cooks dinner every night.', wrong:['My mom cook dinner every night.','My mom is cook dinner every night.']},
+ {star:'Cosma', correct:'Look! It is raining outside.', wrong:['Look! It raining outside.','Look! It are raining outside.']},
+ {star:'Titan', correct:'They watched a movie last weekend.', wrong:['They watch a movie last weekend.','They watching a movie last weekend.']}
+];
+let stage1Order=[];
+let s1={player:'',killed:0,rebuilds:0,firstRunKills:0,questionsAsked:0,correctCount:0,currentIdx:null,activePlanet:null,timer:null,timeLeft:11};
+const coordsBase=[{x:12,y:22},{x:31,y:54},{x:49,y:20},{x:68,y:57},{x:84,y:24},{x:16,y:78},{x:47,y:82},{x:84,y:78}];
+function buildStage1Field(rebuildAnim=false){
+  const field=$('battleField'); field.querySelectorAll('.planet').forEach(el=>el.remove());
+  const coords=shuffle(coordsBase);
+  stage1Order.forEach((q,idx)=>{
+    const c=coords[idx]; const el=document.createElement('button'); el.className='planet'+(rebuildAnim?' rebuildBorn':''); el.style.left=c.x+'%'; el.style.top=c.y+'%'; el.style.animationDelay=(idx*.12)+'s'; el.dataset.idx=idx;
+    el.innerHTML=`<div><div class="bigStar">⭐</div><div class="name">${q.star}</div><div class="mini">กดเพื่อท้าประลอง</div></div>`;
+    el.onclick=()=>openQuestion(idx);
+    field.appendChild(el);
+  });
+}
+function resetStage1(){
+  stage1Order=shuffle(stage1Questions);
+  s1.killed=0; s1.questionsAsked=0; s1.correctCount=0; s1.currentIdx=null; s1.activePlanet=null; s1.timeLeft=11;
+  $('killed').textContent='0'; $('rebuilds').textContent=String(s1.rebuilds); $('who1').textContent=s1.player;
+  buildStage1Field(s1.rebuilds>0);
+}
+function setRing(sec){const deg=Math.max(0,Math.min(360,(sec/11)*360)); $('timerRing').style.background=`conic-gradient(${sec<=3?'#ff708a':'#ff5bb0'} ${deg}deg, rgba(255,255,255,.1) 0deg)`; $('timerNum').textContent=sec;}
+function startQTimer(){stopQTimer(); s1.timeLeft=11; setRing(11); s1.timer=setInterval(()=>{s1.timeLeft--; setRing(s1.timeLeft); if(s1.timeLeft<=0){stopQTimer(); handleAnswer(null,true);} else if(s1.timeLeft<=3){beep(520,0.05,'square',0.05);}},1000);}
+function stopQTimer(){if(s1.timer){clearInterval(s1.timer); s1.timer=null;}}
+function openQuestion(idx){
+  if($('qOverlay').classList.contains('show')) return;
+  s1.currentIdx=idx; s1.activePlanet=document.querySelector(`.planet[data-idx="${idx}"]`);
+  const q=stage1Order[idx]; $('planetTitle').textContent=q.star; $('optionsBox').innerHTML=''; $('resultBox').className='resultBox'; $('resultBox').innerHTML=''; $('continueBtn').classList.add('hidden'); $('rebuildBtn').classList.add('hidden');
+  const options=shuffle([{text:q.correct,ok:true},{text:q.wrong[0],ok:false},{text:q.wrong[1],ok:false}]);
+  options.forEach((opt,i)=>{const b=document.createElement('button'); b.className='option'; b.innerHTML=`<div class="badge">${String.fromCharCode(65+i)}</div><div>${opt.text}</div>`; b.onclick=()=>handleAnswer(opt,false,b); $('optionsBox').appendChild(b);});
+  $('qOverlay').classList.add('show'); startQTimer(); sfxClick();
+}
+function markCorrectPlanet(){
+  const el=s1.activePlanet; if(!el) return;
+  const r=el.getBoundingClientRect(); burst(r.left+r.width/2,r.top+r.height/2,90);
+  el.classList.add('fadeOut','gone'); sfxGood();
+  setTimeout(()=>{if(el) el.remove();},430);
+}
+function showWrongEffect(){const el=s1.activePlanet; if(!el) return; el.classList.add('shake'); setTimeout(()=>el.classList.remove('shake'),360); sfxBad();}
+function handleAnswer(optOrNull, timeout=false, clickedBtn=null){
+  stopQTimer(); const q=stage1Order[s1.currentIdx]; if(!q) return; s1.questionsAsked++;
+  const btns=[...$('optionsBox').children]; btns.forEach(b=>b.disabled=true);
+  btns.forEach(b=>{const txt=b.querySelector('div:last-child').textContent; if(txt===q.correct) b.classList.add('good');});
+  let ok=false;
+  if(optOrNull && optOrNull.ok){
+    ok=true;
+  } else if(optOrNull && !optOrNull.ok && clickedBtn){
+    clickedBtn.classList.add('bad');
+  }
+  const box=$('resultBox'); box.classList.add('show');
+  if(ok){
+    s1.correctCount++; s1.killed++; if(s1.rebuilds===0) s1.firstRunKills=s1.killed; $('killed').textContent=String(s1.killed); box.classList.add('good'); box.innerHTML='✅ <b>ถูกต้อง!</b> ดาวแตกสลายแล้วจ้า<br>เก่งมาก รอบนี้อ่านและตัดสินใจได้แม่นจริง ✨'; markCorrectPlanet(); $('continueBtn').classList.remove('hidden');
+    $('continueBtn').onclick=()=>{ $('qOverlay').classList.remove('show'); if(s1.killed>=8){enterStage2();} };
+  } else {
+    showWrongEffect(); box.classList.add('bad');
+    const reason = timeout ? 'หมดเวลาในข้อนี้ เลยยังไม่ได้ตัดสินใจทัน' : 'โครงสร้างประโยคไม่ถูก เช่น กริยาไม่สอดคล้องกับประธานหรือ tense ไม่ตรง';
+    box.innerHTML=`❌ <b>ยังไม่ถูก</b><br>เพราะ: ${reason}<br><br><b>ประโยคที่ถูกคือ:</b><br>${q.correct}`;
+    $('rebuildBtn').classList.remove('hidden');
+    $('rebuildBtn').onclick=()=>{ $('qOverlay').classList.remove('show'); rebuildGalaxy(); };
+  }
+  setTimeout(()=>{
+    try{ box.scrollIntoView({behavior:'smooth', block:'nearest'}); }catch(e){}
+    const visibleBtn = ok ? $('continueBtn') : $('rebuildBtn');
+    if(visibleBtn){ try{ visibleBtn.scrollIntoView({behavior:'smooth', block:'nearest'}); }catch(e){} }
+  }, 80);
+}
+function rebuildGalaxy(){
+  s1.rebuilds++; $('rebuilds').textContent=String(s1.rebuilds); resetStage1();
+  // build one by one quickly
+  const field=$('battleField'); field.querySelectorAll('.planet').forEach(el=>el.remove());
+  const coords=shuffle(coordsBase);
+  stage1Order.forEach((q,idx)=>{setTimeout(()=>{const c=coords[idx]; const el=document.createElement('button'); el.className='planet rebuildBorn'; el.style.left=c.x+'%'; el.style.top=c.y+'%'; el.style.animationDelay='0s'; el.dataset.idx=idx; el.innerHTML=`<div><div class="bigStar">⭐</div><div class="name">${q.star}</div><div class="mini">กดเพื่อท้าประลอง</div></div>`; el.onclick=()=>openQuestion(idx); field.appendChild(el); const r=field.getBoundingClientRect(); burst(r.left + r.width*(c.x/100), r.top + r.height*(c.y/100), 30,['#ffd86b','#83ebff','#a67cff']); beep(860+idx*30,0.04,'triangle',0.04);}, idx*85);});
+}
+
+/* stage 2 */
+const stage2Puzzles=[
+ {answer:['She','is','reading','a','book','.']},
+ {answer:['They','played','football','yesterday','.']},
+ {answer:['We','will','visit','the','museum','tomorrow','.']},
+ {answer:['He','has','finished','his','homework','.']},
+ {answer:['My','mother','cooks','dinner','every','night','.']}
+];
+let s2={index:0,solved:0,attempts:0,current:null,selected:[]};
+function makePuzzle(){
+  s2.current=stage2Puzzles[s2.index]; s2.selected=[]; $('solvedCount').textContent=String(s2.solved);
+  $('stage2Prompt').textContent=`Arrange the sentence correctly. (${s2.index+1}/5)`;
+  const slots=$('wordSlots'); const bank=$('wordBank'); slots.innerHTML=''; bank.innerHTML=''; $('orderResult').className='resultBox'; $('orderResult').innerHTML=''; $('nextPuzzleBtn').classList.add('hidden');
+  s2.current.answer.forEach((_,i)=>{const sl=document.createElement('div'); sl.className='slot'; sl.dataset.slot=i; slots.appendChild(sl);});
+  const words=shuffle(s2.current.answer.map((w,i)=>({w,i,id:i+'-'+w})));
+  words.forEach(item=>{const b=document.createElement('button'); b.className='wordStar'; b.dataset.word=item.w; b.innerHTML=`<span>${item.w}</span>`; b.onclick=()=>pickWord(b,item.w); bank.appendChild(b);});
+  initTreasureSlots();
+}
+function initTreasureSlots(){const wrap=$('treasureSlots'); wrap.innerHTML=''; for(let i=0;i<5;i++){const d=document.createElement('div'); d.className='treasureSlot'; d.dataset.t=i; wrap.appendChild(d);}}
+function pickWord(btn,word){if(btn.classList.contains('used')) return; const idx=s2.selected.length; const slots=[...$('wordSlots').children]; if(idx>=slots.length) return; s2.selected.push(word); btn.classList.add('used'); slots[idx].textContent=word; slots[idx].classList.add('filled'); sfxClick();}
+function clearWords(){s2.selected=[]; [...$('wordBank').children].forEach(b=>b.classList.remove('used')); [...$('wordSlots').children].forEach(s=>{s.textContent=''; s.classList.remove('filled');}); $('orderResult').className='resultBox'; $('orderResult').innerHTML=''; $('nextPuzzleBtn').classList.add('hidden'); initTreasureSlots();}
+function flyTreasureToSlots(){
+  const slots=[...$('treasureSlots').children];
+  slots.forEach((slot,i)=>{setTimeout(()=>{const rect=slot.getBoundingClientRect(); const start=$('treasureSky').getBoundingClientRect(); const emoji=document.createElement('div'); emoji.className='flyingTreasure'; emoji.textContent='🧸'; emoji.style.left=(start.left + start.width/2 - 20)+'px'; emoji.style.top=(start.top + 80)+'px'; document.body.appendChild(emoji); const dx=(rect.left+rect.width/2)-(start.left+start.width/2); const dy=(rect.top+rect.height/2)-(start.top+80); emoji.animate([{transform:'translate(0,0) scale(.5)',opacity:0},{transform:`translate(${dx}px, ${dy}px) scale(1.15)`,opacity:1}],{duration:520,easing:'cubic-bezier(.2,.9,.2,1)',fill:'forwards'}); setTimeout(()=>{slot.textContent='🧸'; slot.style.boxShadow='0 0 26px rgba(255,216,107,.34)'; emoji.remove();},530); burst(rect.left+rect.width/2,rect.top+rect.height/2,26,['#ffd86b','#fff1a8','#ffb7de']); beep(1160+i*80,0.07,'triangle',0.05);}, i*130);
+  });
+}
+function checkOrder(){
+  s2.attempts++;
+  const good=s2.selected.length===s2.current.answer.length && s2.selected.every((w,i)=>w===s2.current.answer[i]);
+  const box=$('orderResult'); box.classList.add('show');
+  if(good){box.classList.add('good'); box.innerHTML='✅ เรียงถูกต้องแล้ว! มหาสมบัติตุ๊กตาทองกำลังลอยเข้าช่องสมบัติ ✨'; sfxTreasure(); flyTreasureToSlots(); $('nextPuzzleBtn').classList.remove('hidden'); $('nextPuzzleBtn').onclick=()=>{s2.solved++; if(s2.index<4){s2.index++; makePuzzle();} else {finishAll();}};}
+  else {box.classList.add('bad'); box.innerHTML='❌ ยังไม่ถูกนะ ลองดูตำแหน่งคำใหม่อีกนิด แล้วค่อยกดตรวจอีกครั้ง'; sfxBad();}
+}
+function enterStage2(){showScreen('stage2'); $('who2').textContent=s1.player; s2={index:0,solved:0,attempts:0,current:null,selected:[]}; makePuzzle();}
+function finishAll(){
+  showScreen('summary'); $('who3').textContent=s1.player; $('sumFirst').textContent=String(s1.firstRunKills); $('sumRebuilds').textContent=String(s1.rebuilds); $('sumPuzzles').textContent='5/5'; const acc=s1.questionsAsked?Math.round((s1.correctCount/s1.questionsAsked)*100):0; $('sumAccuracy').textContent=acc+'%'; burst(innerWidth*.5, innerHeight*.22, 220); sfxTreasure();
+}
+
+/* navigation + start */
+$('startGameBtn').onclick=()=>{audioOn=true; ensureAudio(); sfxGood(); s1.player=($('playerName').value||'ผู้เล่น').trim(); $('who1').textContent=s1.player; s1.rebuilds=0; s1.firstRunKills=0; showScreen('stage1'); resetStage1();};
+$('backHome1').onclick=()=>{stopQTimer(); $('qOverlay').classList.remove('show'); showScreen('home');};
+$('backHome2').onclick=()=>showScreen('home');
+$('playAgainBtn').onclick=()=>showScreen('home');
+$('clearWordsBtn').onclick=clearWords;
+$('checkOrderBtn').onclick=checkOrder;
+
+/* initial */
+$('who1').textContent='-';
+</script>
+</body>
+</html>
